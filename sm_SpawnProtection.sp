@@ -13,15 +13,11 @@ public Plugin myinfo =
 	url = "https://github.com/JTzLinux/"
 };
 
-new bool:g_bEnabled;
-
+new ConVar:g_cvEnabled;
 public void OnPluginStart()
 {
-	// Register the console command for managing the plugin
-	RegAdminCmd("sm_spawnprotection", Command_51SpawnProtection, ADMFLAG_GENERIC, "Manage SpawnProtection plugin");
-	
 	// Initialize the plugin status
-	g_bEnabled = true;
+	g_cvEnabled = CreateConVar("sm_SpawnProtection_enabled", "1", "Enable or disable spawn protection");
 	PrintToServer("sm_SpawnProtection loaded");
 }
 
@@ -56,6 +52,7 @@ public void OnMapStart()
 
 public Action OnStartTouch(int spawn, int entity)
 {
+	bool g_bEnabled = GetConVarBool(g_cvEnabled);
 	if (g_bEnabled)
 	{
 		TF2_AddCondition(entity, TFCond_UberchargedHidden, TFCondDuration_Infinite, 0);
@@ -65,29 +62,10 @@ public Action OnStartTouch(int spawn, int entity)
 
 public Action OnEndTouch(int spawn, int entity)
 {
+	bool g_bEnabled = GetConVarBool(g_cvEnabled);
 	if (g_bEnabled)
 	{
 		TF2_RemoveCondition(entity, TFCond_UberchargedHidden);
-	}
-	return Plugin_Handled;
-}
-
-public Action Command_51SpawnProtection(int client, int args)
-{
-	if (args > 0)
-	{
-		ReplyToCommand(client, "[SM] Usage: sm_spawnprotection");
-		return Plugin_Handled;
-	}
-	
-	g_bEnabled = !g_bEnabled;
-	if (g_bEnabled)
-	{
-		PrintToServer("SpawnProtection enabled");
-	}
-	else
-	{
-		PrintToServer("SpawnProtection disabled");
 	}
 	return Plugin_Handled;
 }
