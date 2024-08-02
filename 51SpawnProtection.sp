@@ -13,7 +13,7 @@ public Plugin myinfo =
 	url = "https://github.com/JTzLinux/"
 };
 
-new bool:g_bEnabled = true;
+new bool:g_bEnabled;
 
 public void OnPluginStart()
 {
@@ -46,23 +46,29 @@ public void OnMapStart()
 	}
 	if (spawns == 0)
 	{
-		PrintToServer("51SpawnProtection: No func_respawnroom entities found");
+		PrintToServer("sm_SpawnProtection: No func_respawnroom entities found");
 	}
 	else
 	{
-		PrintToServer("51SpawnProtection: %d func_respawnroom entities found", spawns);
+		PrintToServer("sm_SpawnProtection: %d func_respawnroom entities found", spawns);
 	}
 }
 
 public Action OnStartTouch(int spawn, int entity)
 {
-	if (g_bEnabled){TF2_AddCondition(entity, TFCond_UberchargedHidden, TFCondDuration_Infinite, 0);}
+	if (g_bEnabled)
+	{
+		TF2_AddCondition(entity, TFCond_UberchargedHidden, TFCondDuration_Infinite, 0);
+	}
 	return Plugin_Handled;
 }
 
 public Action OnEndTouch(int spawn, int entity)
 {
-	if (g_bEnabled){TF2_RemoveCondition(entity, TFCond_UberchargedHidden);}
+	if (g_bEnabled)
+	{
+		TF2_RemoveCondition(entity, TFCond_UberchargedHidden);
+	}
 	return Plugin_Handled;
 }
 
@@ -77,13 +83,11 @@ public Action Command_51SpawnProtection(int client, int args)
 	g_bEnabled = !g_bEnabled;
 	if (g_bEnabled)
 	{
-		PrintToServer("SpawnProtection disabled");
-		b_gEnabled = false;
+		PrintToServer("SpawnProtection enabled");
 	}
 	else
 	{
-		PrintToServer("SpawnProtection enabled");
-		b_gEnabled = true;
+		PrintToServer("SpawnProtection disabled");
 	}
 	return Plugin_Handled;
 }
