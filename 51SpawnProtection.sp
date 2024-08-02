@@ -6,7 +6,7 @@
 
 public Plugin myinfo =
 {
-	name = "51SpawnProtection",
+	name = "sm_SpawnProtection",
 	author = "Alexander Tara",
 	description = "",
 	version = "1.0.0",
@@ -18,16 +18,16 @@ new bool:g_bEnabled = true;
 public void OnPluginStart()
 {
 	// Register the console command for managing the plugin
-	RegAdminCmd("51spawnprotection", Command_51SpawnProtection, ADMFLAG_GENERIC, "Manage 51SpawnProtection plugin");
+	RegAdminCmd("sm_spawnprotection", Command_51SpawnProtection, ADMFLAG_GENERIC, "Manage SpawnProtection plugin");
 	
 	// Initialize the plugin status
 	g_bEnabled = true;
-	PrintToServer("51SpawnProtection loaded");
+	PrintToServer("sm_SpawnProtection loaded");
 }
 
 public void OnPluginEnd()
 {
-	PrintToServer("51SpawnProtection unloaded");
+	PrintToServer("sm_SpawnProtection unloaded");
 }
 
 public void OnMapStart()
@@ -70,19 +70,19 @@ public Action Command_51SpawnProtection(int client, int args)
 {
 	if (args > 0)
 	{
-		ReplyToCommand(client, "[SM] Usage: 51spawnprotection");
+		ReplyToCommand(client, "[SM] Usage: sm_spawnprotection");
 		return Plugin_Handled;
 	}
 	
 	g_bEnabled = !g_bEnabled;
 	if (g_bEnabled)
 	{
-		PrintToServer("51SpawnProtection disabled");
+		PrintToServer("SpawnProtection disabled");
 		b_gEnabled = false;
 	}
 	else
 	{
-		PrintToServer("51SpawnProtection enabled");
+		PrintToServer("SpawnProtection enabled");
 		b_gEnabled = true;
 	}
 	return Plugin_Handled;
