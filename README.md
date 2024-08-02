@@ -1,1 +1,1 @@
-# 51SpawnProtection
+# sm_SpawnProtection
